@@ -1,0 +1,43 @@
+# Configure all clients here
+# clients:
+#   <username>:
+#     password: <password>
+#     subscriptions:
+#     - sub1
+#     - sub2
+#     publishers: # Optional, see defaults
+#     - <hostname>
+clients:
+  john:
+    password: hello
+    subscriptions:
+    - http
+
+# Configure all checks here
+# checks:
+#   <name>:
+#     command: "<command>"
+#     subscribers:
+#       - sub1
+#       - sub2
+#     ttl: 1200 # Optional, see defaults
+#     interval: 189 # Optional, see defaults
+#     occurences: 3 # Optional, see defaults
+checks:
+  http:
+    command: /usr/lib/nagios/plugins/check_http -H www.tuxis.nl
+    subscribers:
+      - http
+  cpu:
+    command: /usr/lib/nagios/plugins/check_dummy 0
+    subscribers:
+      - level1_support
+
+# Configure default values.
+defaults:
+  check:
+    ttl: 1200
+    interval: 2
+    occurences: 3
+  publishers:
+    - "::1"
