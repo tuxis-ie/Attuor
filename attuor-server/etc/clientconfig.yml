@@ -23,6 +23,10 @@ clients:
 #     ttl: 1200 # Optional, see defaults
 #     interval: 189 # Optional, see defaults
 #     occurences: 3 # Optional, see defaults
+#     os: # Optional. Limits this check to the specified os'es
+#       - linux
+#       - windows
+#       - bsd
 checks:
   http:
     command: /usr/lib/nagios/plugins/check_http -H www.tuxis.nl
