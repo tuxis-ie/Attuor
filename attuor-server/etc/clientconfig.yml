@@ -43,5 +43,7 @@ defaults:
     ttl: 1200
     interval: 2
     occurences: 3
+    os:
+      - any
   publishers:
     - "::1"
