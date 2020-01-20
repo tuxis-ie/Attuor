@@ -21,6 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 from os import path
+import platform
 from yaml import load, YAMLError
 
 def LoadConfig():
@@ -52,4 +53,12 @@ def LoadConfig():
 
     return document
 
+def DetectOS():
+    """Detect the OS we are running on"""
+    our_os = platform.system().lower()
+    if our_os == "":
+        our_os = 'unknown'
+
+    return our_os
 cfg = LoadConfig()
+cfg['os'] = DetectOS()
