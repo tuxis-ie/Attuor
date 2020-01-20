@@ -125,7 +125,7 @@ def GetSubscriptionChecks(subscription, clientos):
                 for d in defaults:
                     if d not in c:
                         c[d] = defaults[d]
-                if c['os'] == 'any' or clientos == c['os']:
+                if clientos in c['os'] or 'any' in c['os']:
                     checks.append({n: c})
 
         redis.StoreSubscriptionChecks(cache_name, checks)
