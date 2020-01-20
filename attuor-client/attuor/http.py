@@ -54,10 +54,10 @@ class HTTPClient():
         self.conn.request('GET', '/settings', headers=self.headers)
         return self.process_response()
 
-    def get_subscription(self, subscription):
+    def get_subscription(self, subscription, data):
         """Get all info for a subscription"""
         self.build_client()
-        self.conn.request('GET', '/subscription/%s' % (subscription), headers=self.headers)
+        self.conn.request('POST', '/subscription/%s' % (subscription), data, headers=self.headers)
         return self.process_response()
 
     def process_response(self):

@@ -63,13 +63,21 @@ def req_settings():
         })
 
 @app.route('/subscription/')
-@app.route('/subscription/<subscription>', methods=['GET'])
+@app.route('/subscription/<subscription>', methods=['POST'])
 @auth.login_required
 def req_subscription(subscription):
     """After receiving it's settings, the client will request the info about the
     given subscriptions. This will result in the client having all the checks he
-    needs to run, and the publishing data it needs."""
-    checks = config.GetSubscriptionChecks(subscription)
+    needs to run, and the publishing data it needs. The client may POST information
+    about itself."""
+
+    clientos = None
+    if request.json:
+        cdata = request.json
+        if 'os' in cdata:
+            clientos = cdata['os']
+
+    checks = config.GetSubscriptionChecks(subscription, clientos)
     return jsonify(
         {
             "subscription": subscription,
