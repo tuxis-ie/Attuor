@@ -105,12 +105,17 @@ def GetCheckDefaults():
     return fullconfig['defaults']['check']
 
 
-def GetSubscriptionChecks(subscription):
+def GetSubscriptionChecks(subscription, clientos):
     """Load the config for a subscription"""
     # First, try to load the config from redis
+
+    if not clientos:
+        clientos = 'any'
+
+    cache_name = '%s_%s' % (subscription, clientos)
     try:
-        cfg = redis.GetSubscriptionChecks(subscription)
-    # We redturn ValueError if there is nothing in redis
+        cfg = redis.GetSubscriptionChecks(cache_name)
+    # We return ValueError if there is nothing in redis
     except ValueError:
         checks = []
         fullconfig = ReloadConfig()
@@ -120,9 +125,10 @@ def GetSubscriptionChecks(subscription):
                 for d in defaults:
                     if d not in c:
                         c[d] = defaults[d]
-                checks.append({n: c})
+                if clientos in c['os'] or 'any' in c['os']:
+                    checks.append({n: c})
 
-        redis.StoreSubscriptionChecks(subscription, checks)
+        redis.StoreSubscriptionChecks(cache_name, checks)
         cfg = checks
 
     return cfg
