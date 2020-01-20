@@ -92,10 +92,13 @@ def main():
     c = http.HTTPClient(config.cfg)
     settings = c.get_settings()
 
+
+    postdata = dict()
+    postdata['os'] = config.cfg['os']
     checks = dict()
     # For each subscription, fetch the checks
     for s in settings['subscriptions']:
-        for check in c.get_subscription(s)['checks']:
+        for check in c.get_subscription(s, json.dumps(postdata))['checks']:
             for cname, cdata in check.items():
                 checks[cname] = Check(cname, cdata)
 
